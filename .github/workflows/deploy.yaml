@@ -42,5 +42,5 @@ jobs:
         with:
           url: 'https://signal.lvksh.cloud/deployments/push?site=63746842118066176'
           method: 'PUT'
-          bearerToken: ${{ secrets.SIGNAL_TOKEN }}
+          bearerToken: ${{ secrets.EDGESERVER_TOKEN }}
           files: '{ "data": "${{ github.workspace }}/result.zip" }'
