@@ -1,0 +1,46 @@
+# yaml-language-server: $schema=https://json.schemastore.org/github-workflow.json
+
+name: Deploy to EdgeServer
+
+on:
+  push:
+    branches:
+      - "master"
+
+jobs:
+  zip-files:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+
+      - uses: pnpm/action-setup@v2
+        with:
+          version: 7.3.0
+
+      - uses: actions/setup-node@v2
+        with:
+          node-version: "16.11.0"
+          registry-url: "https://registry.npmjs.org"
+
+      - run: pnpm install --frozen-lockfile
+
+      - name: Build
+        run: pnpm build
+
+      - uses: vimtor/action-zip@v1
+        with:
+          files: src/
+          dest: result.zip
+
+      - uses: actions/upload-artifact@v2
+        with:
+          name: my-artifact
+          path: ${{ github.workspace }}/result.zip
+
+      - name: Deploy Stage
+        uses: fjogeleit/http-request-action@master
+        with:
+          url: 'https://signal.lvksh.cloud/deployments/push?site=63746842118066176'
+          method: 'PUT'
+          bearerToken: ${{ secrets.SIGNAL_TOKEN }}
+          files: '{ "data": "${{ github.workspace }}/result.zip" }'
