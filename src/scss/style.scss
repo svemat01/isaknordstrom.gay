@@ -119,6 +119,8 @@ h1 {
 
         border: 0.4rem solid $rainbow;
 
+        transition: all 0.15s ease-in-out;
+
         @media (max-width: 350px) {
             font-size: 1.8rem;
         }
@@ -138,6 +140,10 @@ h1 {
         &.grindr {
             background-image: $rainbowLinear;
             color: #262626;
+        }
+
+        &:hover {
+            transform: scale(1.05);
         }
 
         img {
