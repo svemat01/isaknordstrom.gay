@@ -31,5 +31,6 @@ jobs:
         uses: lvkdotsh/edgeserver-upload@master
         with:
           app_id: "63746842118066176"
+          server: https://api.edgeserver.io
           token: ${{ secrets.EDGESERVER_TOKEN }}
           directory: src
